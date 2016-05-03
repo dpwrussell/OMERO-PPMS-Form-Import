@@ -38,7 +38,7 @@ resp = requests.post(
     'https://ppms.us/hms-lsp/API2/',
     {
         'action': 'GetBookingFormContent',
-        'sessionid': '12871',
+        'sessionid': '12872',
         'apikey': 'br8RfjAT7Bto4phxyfN5SKEaAetnmyDd',
         'coreid': '2'
     }
@@ -68,18 +68,19 @@ for item in resp.json():
         if k:
             print k.group(1)
 
-        v = re.search(r'^\[(.+)\]', i, flags=re.MULTILINE)
-        if v:
-            print v.group(1)
-
-        # If there is no corresponding value for this, instead look for radio
-        # or checkbox syntax. they are the same so we must find all instances
-        # of (x)
-        else:
-            vs = re.findall(r'^\(x\)(.*)', i, flags=re.MULTILINE)
-            if vs:
-                for v in vs:
+            v = re.search(r'^\[(.+)\]', i, flags=re.MULTILINE)
+            if v:
+                if v.group(1) != 'left empty':
                     print v.group(1)
+
+            # If there is no corresponding value for this, instead look for
+            # radio or checkbox syntax. they are the same so we must find all
+            # instances of (x)
+            else:
+                vs = re.findall(r'^\(x\)(.*)', i, flags=re.MULTILINE)
+                if vs:
+                    for v in vs:
+                        print v.group(1)
         # if kv:
         #     k = kv.group(1).strip()
         #     v = kv.group(2).strip()
