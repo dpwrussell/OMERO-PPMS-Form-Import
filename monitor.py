@@ -50,13 +50,18 @@ if resp.status_code != 200:
 
 # print resp.json()
 
-for item in resp.json():
-    # print item.keys()
-    print item['content']
-    print
-    print
+with open("form.txt") as f:
+# for item in resp.json():
+#     # print item.keys()
+#     print item['content']
+#     print
+#     print
 
-    m = re.split(u'^[!]{3}.+$', item['content'], flags=re.MULTILINE)
+
+    content = f.read()
+    # content = item['content']
+
+    m = re.split(u'^[!]{3}.+$', content, flags=re.MULTILINE)
     for i in m:
         # print i
 
@@ -68,19 +73,29 @@ for item in resp.json():
         if k:
             print k.group(1)
 
-            v = re.search(r'^\[(.+)\]', i, flags=re.MULTILINE)
-            if v:
-                if v.group(1) != 'left empty':
-                    print v.group(1)
+            # Look for square bracketed responses. If there are multiple then
+            # these are checkboxes
+            v = re.findall(r'^\[(.+)\][\b]*(.*)', i, flags=re.MULTILINE)
+            if v and len(v) > 1:
+                for c in v:
+                    print "\tc %s" % c[1].strip()
+                    # if c.group(1) != 'left empty':
+                    #     print c.group(2)
 
-            # If there is no corresponding value for this, instead look for
-            # radio or checkbox syntax. they are the same so we must find all
-            # instances of (x)
+            elif len(v) == 1:
+                if v[0][0].strip() != 'left empty':
+                    print "\t%s" % v[0][0].strip()
+                else:
+                    print '\tNULL'
+
             else:
-                vs = re.findall(r'^\(x\)(.*)', i, flags=re.MULTILINE)
-                if vs:
-                    for v in vs:
-                        print v.group(1)
+                v = re.search(r'^\(x\)[\b]*(.*)', i, flags=re.MULTILINE)
+                if v:
+                    print '\ts %s' % v.group(1).strip()
+
+
+
+
         # if kv:
         #     k = kv.group(1).strip()
         #     v = kv.group(2).strip()

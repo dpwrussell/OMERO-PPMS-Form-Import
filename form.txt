@@ -1,0 +1,63 @@
+!!Please answer the following question about your session on the DeltaVision microscope. This information will be associated with datasets you collect during the booked session.
+
+!!!Title of your experiment
+title:
+[23rwdf2efsdf]
+!!!Brief description of what you plan to observe on the microscope:
+description:
+[sdfsdfsdfsdfsdfsdfdfsdfrefwd]
+!!What kind of cells are you imaging?
+!!!Species:
+species:
+[rpr2glknsdoifj2]
+!!!Cell Line Name:
+cell-line:
+[2oeiflsfoijwdefohi]
+
+!!!Radio Button Example:
+yesorno:
+(x) yes
+(_) no
+
+!!!Check box example:
+aorb:
+[x] Option A
+[_] Option B
+
+4. Which Filter Set Are You Using?
+(_)Quad
+(x)Quad - mCh
+(_)CFP/YFP/mCh
+Please enter how you have labeled your cells using the following format: Label,Target. For example: Hoechst,DNA.
+DAPI:
+[left empty]
+FITC&#x2F;GFP:
+[left empty]
+TRITC:
+[left empty]
+Cy5:
+[left empty]
+
+Please enter how you have labeled your cells using the following format: Label,Target. For example: Hoechst,DNA.
+DAPI:
+[-=0ioij]
+FITC&#x2F;GFP:
+[029uro2nf20yf]
+mCherry:
+[oi204hg]
+Cy5:
+[0ijf02irhg]
+
+Please enter how you have labeled your cells using the following format: Label,Target. For example: CFP,ProteinX.
+CFP:
+[left empty]
+YFP:
+[left empty]
+mCherry:
+[left empty]
+
+
+Thank you!
+
+The Image Management Core
+$pop$imc.hms.harvard.edu$/pop$
