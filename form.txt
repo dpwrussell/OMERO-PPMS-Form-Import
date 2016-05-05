@@ -23,6 +23,7 @@ yesorno:
 aorb:
 [x] Option A
 [_] Option B
+[x] Option C
 
 4. Which Filter Set Are You Using?
 (_)Quad
