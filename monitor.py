@@ -10,20 +10,29 @@ conn_manager = OMEROConnectionManager()
 # TODO Perhaps exclude datasets that already have the data extracted from the
 # PPMS form. How do we know which ones are already processed?
 q = """
-    SELECT dataset.id,
-           dataset.description
+    SELECT dataset.id, anno
     FROM Dataset dataset
-    WHERE dataset.description LIKE '%Session #%'
+    JOIN dataset.annotationLinks links
+    JOIN links.child anno
+    JOIN anno.mapValue mapValues
+    WHERE anno.class = MapAnnotation
+    AND mapValues.name = 'dpwrkey'
     """
-
+    # WHERE dataset.description LIKE '%Session #%'
+    # JOIN anno.annotationLinks anno2
 # Run the query
 rows = conn_manager.hql_query(q)
 
 for row in rows:
-    print(row)
-    datasetId = row[0]
-    sessionId = re.search(r'Session #([0-9]*)', row[1])
-    print sessionId.group(1)
+    dataset_id = row[0]
+    anno = row[1]
+    print('Dataset %i' % dataset_id)
+    for pair in anno.getMapValue():
+        print '\t%s = %s' % (pair.name, pair.value)
+
+    # datasetId = row[0]
+    # sessionId = re.search(r'Session #([0-9]*)', row[1])
+    # print sessionId.group(1)
 exit(1)
 # curl -d "action=GetSessionDetails&sessionid=12589&apikey=br8RfjAT7Bto4phxyfN5SKEaAetnmyDd&coreid=2" https://ppms.us/hms-lsp/API2/
 # curl -d "action=GetBookingFormContent&sessionid=12589&apikey=br8RfjAT7Bto4phxyfN5SKEaAetnmyDd&coreid=2" https://ppms.us/hms-lsp/API2/
