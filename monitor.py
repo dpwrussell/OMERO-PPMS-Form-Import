@@ -18,6 +18,15 @@ q = """
     WHERE anno.class = MapAnnotation
     AND mapValues.name = 'dpwrkey'
     """
+
+# q = """
+#     SELECT image.id, anno
+#     FROM Image image
+#     JOIN image.annotationLinks links
+#     JOIN links.child anno
+#     WHERE image.name = 'mendel.jpg'
+#     """
+
     # WHERE dataset.description LIKE '%Session #%'
     # JOIN anno.annotationLinks anno2
 # Run the query
@@ -26,7 +35,7 @@ rows = conn_manager.hql_query(q)
 for row in rows:
     dataset_id = row[0]
     anno = row[1]
-    print('Dataset %i' % dataset_id)
+    print('Dataset %i (KV Annotation: %i)' % (dataset_id, anno.id.val))
     for pair in anno.getMapValue():
         print '\t%s = %s' % (pair.name, pair.value)
 
