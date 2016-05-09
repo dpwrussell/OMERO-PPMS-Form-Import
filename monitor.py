@@ -9,23 +9,23 @@ conn_manager = OMEROConnectionManager()
 
 # TODO Perhaps exclude datasets that already have the data extracted from the
 # PPMS form. How do we know which ones are already processed?
-q = """
-    SELECT dataset.id, anno
-    FROM Dataset dataset
-    JOIN dataset.annotationLinks links
-    JOIN links.child anno
-    JOIN anno.mapValue mapValues
-    WHERE anno.class = MapAnnotation
-    AND mapValues.name = 'dpwrkey'
-    """
-
 # q = """
-#     SELECT image.id, anno
-#     FROM Image image
-#     JOIN image.annotationLinks links
+#     SELECT dataset, anno
+#     FROM Dataset dataset
+#     JOIN dataset.annotationLinks links
 #     JOIN links.child anno
-#     WHERE image.name = 'mendel.jpg'
+#     JOIN anno.mapValue mapValues
+#     WHERE anno.class = MapAnnotation
+#     AND mapValues.name = 'dpwrkey'
 #     """
+
+q = """
+    SELECT image, anno
+    FROM Image image
+    JOIN image.annotationLinks links
+    JOIN links.child anno
+    WHERE image.name = 'mendel.jpg'
+    """
 
     # WHERE dataset.description LIKE '%Session #%'
     # JOIN anno.annotationLinks anno2
@@ -33,9 +33,9 @@ q = """
 rows = conn_manager.hql_query(q)
 
 for row in rows:
-    dataset_id = row[0]
+    obj = row[0]
     anno = row[1]
-    print('Dataset %i (KV Annotation: %i)' % (dataset_id, anno.id.val))
+    print('%s %i (KV Annotation: %i)(%s)' % (type(obj), obj.id.val, anno.id.val, anno.getNs().val))
     for pair in anno.getMapValue():
         print '\t%s = %s' % (pair.name, pair.value)
 
